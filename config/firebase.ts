@@ -1,6 +1,8 @@
 import * as admin from "firebase-admin";
 import { getFirestore } from 'firebase-admin/firestore'
 import { initializeApp } from 'firebase-admin/app'
+import firebase from "firebase/compat/app"
+import "firebase/compat/auth"
 
 
 
@@ -8,7 +10,7 @@ export class FirebaseService {
   private static instance: FirebaseService;
 
   db: admin.firestore.Firestore;
-  auth: admin.auth.Auth;
+  auth: firebase.auth.Auth;
   //admin: any
 
   constructor() {
@@ -25,12 +27,26 @@ export class FirebaseService {
       client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-gaa9d%40users-microservice-9cc72.iam.gserviceaccount.com"
     };
 
+    const firebaseClientConfig = {
+      apiKey: "AIzaSyAqCG1edMFhTFSp3cKUJ3SfOvII-DhGKP0",
+      authDomain: "users-microservice-9cc72.firebaseapp.com",
+      projectId: "users-microservice-9cc72",
+      storageBucket: "users-microservice-9cc72.appspot.com",
+      messagingSenderId: "749632593324",
+      appId: "1:749632593324:web:c10c1bc31b1e6b68962e09"
+    }
+
     initializeApp({
       credential: admin.credential.cert(serviceAccount),
     });
 
+    if (firebase.apps.length === 0) {
+      firebase.initializeApp(firebaseClientConfig)
+    }
+
 
     this.db = getFirestore();
+    this.auth = firebase.auth()
 
     console.log("Created new instance of FirestoreService");
   }

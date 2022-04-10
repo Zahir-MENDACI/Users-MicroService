@@ -21,6 +21,17 @@ export class UsersController {
         }
     }
 
+    authUser = async (req: express.Request, res: express.Response) => {
+        const usersService = UsersService.getInstance();
+        try {
+            const addUser = await usersService.authUser(req.body)
+            res.status(200).send(addUser);
+        } catch (error) {
+            console.log(error)
+            res.status(400).send(error);
+        }
+    }
+
     getAllUsers = async (req: express.Request, res: express.Response) => {
         const usersService = UsersService.getInstance();
         try {

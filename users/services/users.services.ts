@@ -20,8 +20,16 @@ export class UsersService {
 
     async addUser(body: any) {
         try {
-            const user = new User(undefined, body.firstName, body.lastName, body.email, body.location, body.status, new Date(), new Date())
-            return await this.dao.add(user)
+            const user = new User(undefined, undefined, body.firstName, body.lastName, body.email, body.location, body.status, new Date(), new Date())
+            return await this.dao.add(user, body.password)
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async authUser(body: any) {
+        try {
+            return await this.dao.authUser(body.email, body.password)
         } catch (error) {
             throw error
         }
@@ -49,7 +57,7 @@ export class UsersService {
     async updateUser(body: any, params: any) {
         try {
             const userId: string = params.id
-            const user = new User(undefined, body.firstName, body.lastName, body.email, body.location, body.status, undefined, new Date())
+            const user = new User(undefined, undefined, body.firstName, body.lastName, body.email, body.location, body.status, undefined, new Date())
             return await this.dao.updateUser(userId, user)
         } catch (error) {
             throw error

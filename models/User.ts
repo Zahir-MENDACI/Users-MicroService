@@ -2,6 +2,7 @@ import * as admin from "firebase-admin"
 
 class User {
   id: string;
+  uid: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -10,8 +11,9 @@ class User {
   createdAt: Date;
   updatedAt: Date;
   
-    constructor(id: string, firstName: string, lastName: string, email: string, location: string, status: string = "suspended", createdAt: Date, updatedAt: Date) {
+    constructor(id: string, uid: string, firstName: string, lastName: string, email: string, location: string, status: string = "suspended", createdAt: Date, updatedAt: Date) {
       this.id = id
+      this.uid = uid
       this.firstName = firstName
       this.lastName = lastName
       this.email = email
@@ -25,6 +27,7 @@ class User {
         toFirestore(user: User) {
           const returnValue: any = {
             id: user.id,
+            uid: user.uid,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -61,6 +64,7 @@ class User {
     
           const returnValue = new User(
             snapshot.id,
+            data.uid,
             data.firstName,
             data.lastName,
             data.email,
